@@ -41,6 +41,6 @@ routes.level1.level2.level3.$url({
   params: {
     id1: 1,
     id2: 2,
-    id3: 1,
+    id3: 3,
   },
 });
