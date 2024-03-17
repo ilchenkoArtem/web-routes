@@ -164,3 +164,25 @@ type expectedRoutesWithChildrenWithParams = {
   };
 };
 expectType<expectedRoutesWithChildrenWithParams>(routesWithChildrenWithParams);
+
+// Extends parent params
+type testRouteConfigWithParamsAndWithChildrenWithParams = {
+  home: {
+    url: '/home/:id1';
+    children: {
+      child: {
+        url: '/child/:id2';
+      };
+    };
+  };
+};
+
+declare const routesWithParamsAndWithChildrenWithParams: Routes<testRouteConfigWithParamsAndWithChildrenWithParams>;
+type expectedRoutesWithParamsAndWithChildrenWithParams = {
+  home: RouteWithParams<testRouteConfigWithParamsAndWithChildrenWithParams['home']> & {
+    child: RouteWithParams<{
+      url: '/home/:id1/child/:id2';
+    }>;
+  };
+};
+expectType<expectedRoutesWithParamsAndWithChildrenWithParams>(routesWithParamsAndWithChildrenWithParams);
