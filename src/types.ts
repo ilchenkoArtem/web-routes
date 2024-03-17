@@ -79,12 +79,6 @@ export type Route<T extends RouteConfig> = T extends RouteConfig
       : RouteBase
   : never;
 
-export type MergeRouteConfig<T extends RoutesConfig> = {
-  [K in keyof T]: T[K] extends SetRequired<RouteConfig, 'children'>
-    ? Route<T[K]> & Routes<T[K]['children']>
-    : Route<T[K]>;
-};
-
 export type Routes<T extends RoutesConfig> = {
   [K in keyof T]: T[K] extends SetRequired<RouteConfig, 'children'>
     ? Route<T[K]> & Routes<T[K]['children']>
