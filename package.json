@@ -59,11 +59,11 @@
     }
   },
   "tsd": {
-    "directory": "src/test-d"
+    "directory": "src/tests-d"
   },
   "lint-staged": {
     "*": [
-      "git add ."
+      "git add"
     ],
     "*.{ts}": [
       "prettier --write"
