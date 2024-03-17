@@ -10,6 +10,7 @@
     }
   },
   "scripts": {
+    "prepare": "husky install",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -61,9 +62,11 @@
     "directory": "src/__tests__"
   },
   "lint-staged": {
-    "{src,test}/**/*.ts": [
-      "prettier --write",
-      "git add"
+    "*": [
+      "git add ."
+    ],
+    "*.{ts}": [
+      "prettier --write"
     ]
   },
   "files": [

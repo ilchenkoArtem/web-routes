@@ -32,7 +32,13 @@ export type IsUrlWithParams<T extends string> = GetUrlParams<T> extends never ? 
  *  @example
  *  MergeUrl<'/test/:id', '/child/:id3'> // '/test/:id/child/:id3'
  */
-export type MergeUrl<T1 extends string, T2 extends string> = `${T1}${T2}`;
+//prettier-ignore
+export type MergeUrl<P extends string, S extends string> =
+  P extends '' | "/"
+    ? (S extends '' | "/" ? '/' : S)
+    : `${P}${S}` extends `${infer Url}/`
+      ? Url
+      : `${P}${S}`;
 
 export interface RouteConfig<T extends Url = Url> {
   url: T;
