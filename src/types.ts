@@ -1,4 +1,4 @@
-import { SetRequired, Split } from 'type-fest';
+import { SetRequired, Simplify, Split } from 'type-fest';
 
 export type Url = `/${string}`;
 
@@ -39,6 +39,13 @@ export type MergeUrl<P extends string, S extends string> =
     : `${P}${S}` extends `${infer Url}/`
       ? Url
       : `${P}${S}`;
+
+export type ExtendsUrlFromParentConfig<TFrom extends RouteConfig, T extends RouteConfig> = Simplify<
+  {
+    url: MergeUrl<TFrom['url'], T['url']>;
+  } & (T extends SetRequired<RouteConfig, 'query'> ? { query: T['query'] } : {}) &
+    (T extends SetRequired<RouteConfig, 'children'> ? { children: T['children'] } : {})
+>;
 
 export interface RouteConfig<T extends Url = Url> {
   url: T;
