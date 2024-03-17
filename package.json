@@ -19,7 +19,8 @@
     "lint-and-fix": "eslint . --ext .ts --fix",
     "pretty": "prettier --write \"src/**/*.ts\"",
     "clean-up": "npm run lint-and-fix & npm run pretty",
-    "commit": "cz"
+    "commit": "git-cz",
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "semantic-release": "^23.0.4",
     "tsd": "^0.30.7",
@@ -57,6 +59,12 @@
   },
   "tsd": {
     "directory": "src/__tests__"
+  },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "files": [
     "index.d.ts",
