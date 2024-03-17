@@ -167,11 +167,16 @@ expectType<expectedRoutesWithChildrenWithParams>(routesWithChildrenWithParams);
 
 // Extends parent params
 type testRouteConfigWithParamsAndWithChildrenWithParams = {
-  home: {
-    url: '/home/:id1';
+  level1: {
+    url: '/:id1';
     children: {
-      child: {
-        url: '/child/:id2';
+      level2: {
+        url: '/:id2';
+        children: {
+          level3: {
+            url: '/:id3';
+          };
+        };
       };
     };
   };
@@ -179,10 +184,16 @@ type testRouteConfigWithParamsAndWithChildrenWithParams = {
 
 declare const routesWithParamsAndWithChildrenWithParams: Routes<testRouteConfigWithParamsAndWithChildrenWithParams>;
 type expectedRoutesWithParamsAndWithChildrenWithParams = {
-  home: RouteWithParams<testRouteConfigWithParamsAndWithChildrenWithParams['home']> & {
-    child: RouteWithParams<{
-      url: '/home/:id1/child/:id2';
-    }>;
+  level1: RouteWithParams<{
+    url: '/:id1';
+  }> & {
+    level2: RouteWithParams<{
+      url: '/:id1/:id2';
+    }> & {
+      level3: RouteWithParams<{
+        url: '/:id1/:id2/:id3';
+      }>;
+    };
   };
 };
 expectType<expectedRoutesWithParamsAndWithChildrenWithParams>(routesWithParamsAndWithChildrenWithParams);

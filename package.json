@@ -59,7 +59,7 @@
     }
   },
   "tsd": {
-    "directory": "src/__tests__"
+    "directory": "src/test-d"
   },
   "lint-staged": {
     "*": [

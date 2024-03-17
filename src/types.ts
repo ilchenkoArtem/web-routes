@@ -42,7 +42,7 @@ export type MergeUrl<P extends string, S extends string> =
 
 export type ExtendsUrlFromParentConfig<TFrom extends RouteConfig, T extends RouteConfig> = Simplify<
   {
-    url: MergeUrl<TFrom['url'], T['url']>;
+    url: MergeUrl<TFrom['url'], T['url']> extends `/${string}` ? MergeUrl<TFrom['url'], T['url']> : never;
   } & (T extends SetRequired<RouteConfig, 'query'> ? { query: T['query'] } : {}) &
     (T extends SetRequired<RouteConfig, 'children'> ? { children: T['children'] } : {})
 >;
@@ -82,18 +82,18 @@ export interface RouteWithQueryAndParams<T extends SetRequired<RouteConfig, 'que
 }
 
 //prettier-ignore
-export type Route<T extends RouteConfig> = T extends RouteConfig
+export type Route<T extends RouteConfig, TParent extends RouteConfig = {url: "/"}> = T extends RouteConfig
   ? IsUrlWithParams<T['url']> extends true
     ? T extends SetRequired<RouteConfig, "query">
-      ? RouteWithQueryAndParams<T>
-      : RouteWithParams<T>
+      ? RouteWithQueryAndParams<ExtendsUrlFromParentConfig<TParent, T>>
+      : RouteWithParams<ExtendsUrlFromParentConfig<TParent, T>>
     : T extends SetRequired<RouteConfig, "query">
-      ? RouteWithQuery<T>
+      ? RouteWithQuery<ExtendsUrlFromParentConfig<TParent, T>>
       : RouteBase
   : never;
 
-export type Routes<T extends RoutesConfig> = {
+export type Routes<T extends RoutesConfig, TParent extends RouteConfig = { url: '/' }> = {
   [K in keyof T]: T[K] extends SetRequired<RouteConfig, 'children'>
-    ? Route<T[K]> & Routes<T[K]['children']>
-    : Route<T[K]>;
+    ? Route<T[K], TParent> & Routes<T[K]['children'], ExtendsUrlFromParentConfig<TParent, T[K]>>
+    : Route<T[K], TParent>;
 };
