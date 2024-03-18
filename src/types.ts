@@ -47,16 +47,19 @@ export type ExtendsUrlFromParentConfig<TFrom extends RouteConfig, T extends Rout
     (T extends SetRequired<RouteConfig, 'children'> ? { children: T['children'] } : {})
 >;
 
+export type RouteConfigQuery = Record<string, string>;
+export type RouteConfigParams = Record<string, string>;
+
 export interface RouteConfig<T extends Url = Url> {
   url: T;
   children?: RoutesConfig;
-  query?: Record<string, string>;
-  params?: Record<string, string>;
+  query?: RouteConfigQuery;
+  params?: RouteConfigParams;
 }
 
 export type RoutesConfig = Record<string, RouteConfig>;
 
-export type RouteQuery<T extends Record<string, string>> = {
+export type RouteQuery<T extends Record<string, string> = Record<string, string>> = {
   [K in keyof T]?: string | number;
 };
 
