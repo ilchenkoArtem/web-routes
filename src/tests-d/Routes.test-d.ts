@@ -101,7 +101,9 @@ type expectedRoutesWithParamsAndChildren = {
   homeWithParams: RouteWithParams<
     testRouteConfigWithParamsAndChildren['homeWithParams']
   > & {
-    child: RouteBase;
+    child: RouteWithParams<{
+      url: '/:id/child';
+    }>;
   };
 };
 expectType<expectedRoutesWithParamsAndChildren>(routesWithParamsAndChildren);
