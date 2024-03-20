@@ -37,7 +37,7 @@ export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
           if (!options) return url;
 
           if (options.params) {
-            url = replaceParams(routeConfig.url, options.params);
+            url = replaceParams(url, options.params);
           }
 
           if (routeConfig.query && options.query) {

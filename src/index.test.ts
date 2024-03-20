@@ -168,7 +168,6 @@ describe('createRoutes', () => {
       ).toBe('/1234?flor4PageQuery=1&flor4LimitQuery=10');
     });
   });
-
   describe('nested routes', () => {
     describe('static parent URL', () => {
       it('children static URL', () => {
@@ -323,10 +322,6 @@ describe('createRoutes', () => {
         });
 
         expect(routes.home.$url()).toBe('/');
-        expect(routes.home.$query).toEqual({
-          page: 'pageQuery',
-          limit: 'limitQuery',
-        });
         expect(routes.home.child.$url()).toBe('/child');
       });
       it('children static URL and query', () => {
@@ -367,16 +362,7 @@ describe('createRoutes', () => {
         });
 
         expect(routes.home.$url()).toBe('/');
-        expect(routes.home.$query).toEqual({
-          page: 'pageQuery',
-          limit: 'limitQuery',
-        });
-
         expect(routes.home.child.$url()).toBe('/child');
-        expect(routes.home.child.$query).toEqual({
-          page: 'pageQuery',
-          limit: 'limitQuery',
-        });
       });
       it('children dynamic URL', () => {
         const routes = createRoutes({
@@ -406,11 +392,6 @@ describe('createRoutes', () => {
         });
 
         expect(routes.home.$url()).toBe('/');
-        expect(routes.home.$query).toEqual({
-          page: 'pageQuery',
-          limit: 'limitQuery',
-        });
-
         expect(routes.home.child.$url({ params: { id2: '2' } })).toBe('/2');
       });
       it('children dynamic URL and query', () => {
@@ -451,11 +432,6 @@ describe('createRoutes', () => {
         });
 
         expect(routes.home.$url()).toBe('/');
-        expect(routes.home.$query).toEqual({
-          page: 'pageQuery',
-          limit: 'limitQuery',
-        });
-
         expect(
           routes.home.child.$url({
             params: { id2: '2' },
@@ -464,7 +440,6 @@ describe('createRoutes', () => {
         ).toBe('/2?pageQuery=1&limitQuery=10');
       });
     });
-
     describe('dynamic parent URL', () => {
       it('children static URL', () => {
         const routes = createRoutes({
@@ -576,6 +551,165 @@ describe('createRoutes', () => {
         expect(routes).toEqual({
           home: {
             $url: expect.any(Function),
+            child: {
+              $url: expect.any(Function),
+              $query: {
+                page: 'pageQuery',
+                limit: 'limitQuery',
+              },
+            },
+          },
+        });
+
+        expect(routes.home.$url({ params: { id1: '1234' } })).toBe('/1234');
+        expect(
+          routes.home.child.$url({
+            params: { id1: '1', id2: '2' },
+            query: { page: '1', limit: '10' },
+          }),
+        ).toBe('/1/2?pageQuery=1&limitQuery=10');
+      });
+    });
+    describe('dynamic parent URL and query', () => {
+      it('children static URL', () => {
+        const routes = createRoutes({
+          home: {
+            url: '/:id1',
+            query: {
+              page: 'pageQuery',
+              limit: 'limitQuery',
+            },
+            children: {
+              child: {
+                url: '/child',
+              },
+            },
+          },
+        });
+
+        expect(routes).toEqual({
+          home: {
+            $url: expect.any(Function),
+            $query: {
+              page: 'pageQuery',
+              limit: 'limitQuery',
+            },
+            child: { $url: expect.any(Function) },
+          },
+        });
+
+        expect(routes.home.$url({ params: { id1: '1234' } })).toBe('/1234');
+        expect(
+          routes.home.child.$url({
+            params: {
+              id1: '1234',
+            },
+          }),
+        ).toBe('/1234/child');
+      });
+      it('children static URL and query', () => {
+        const routes = createRoutes({
+          home: {
+            url: '/:id1',
+            query: {
+              page: 'pageQuery',
+              limit: 'limitQuery',
+            },
+            children: {
+              child: {
+                url: '/child',
+                query: {
+                  page: 'childrenPageQuery',
+                  limit: 'childrenLimitQuery',
+                },
+              },
+            },
+          },
+        });
+
+        expect(routes).toEqual({
+          home: {
+            $url: expect.any(Function),
+            $query: {
+              page: 'pageQuery',
+              limit: 'limitQuery',
+            },
+            child: {
+              $url: expect.any(Function),
+              $query: {
+                page: 'childrenPageQuery',
+                limit: 'childrenLimitQuery',
+              },
+            },
+          },
+        });
+
+        expect(routes.home.$url({ params: { id1: '1234' } })).toBe('/1234');
+        expect(routes.home.child.$url({ params: { id1: '1234' } })).toBe(
+          '/1234/child',
+        );
+      });
+      it('children dynamic URL', () => {
+        const routes = createRoutes({
+          home: {
+            url: '/:id1',
+            query: {
+              page: 'pageQuery',
+              limit: 'limitQuery',
+            },
+            children: {
+              child: {
+                url: '/:id2',
+              },
+            },
+          },
+        });
+
+        expect(routes).toEqual({
+          home: {
+            $url: expect.any(Function),
+            $query: {
+              page: 'pageQuery',
+              limit: 'limitQuery',
+            },
+            child: { $url: expect.any(Function) },
+          },
+        });
+
+        expect(routes.home.$url({ params: { id1: '1234' } })).toBe('/1234');
+        expect(
+          routes.home.child.$url({
+            params: { id1: '1', id2: '2' },
+          }),
+        ).toBe('/1/2');
+      });
+      it('children dynamic URL and query', () => {
+        const routes = createRoutes({
+          home: {
+            url: '/:id1',
+            query: {
+              page: 'pageQuery',
+              limit: 'limitQuery',
+            },
+            children: {
+              child: {
+                url: '/:id2',
+                query: {
+                  page: 'pageQuery',
+                  limit: 'limitQuery',
+                },
+              },
+            },
+          },
+        });
+
+        expect(routes).toEqual({
+          home: {
+            $url: expect.any(Function),
+            $query: {
+              page: 'pageQuery',
+              limit: 'limitQuery',
+            },
             child: {
               $url: expect.any(Function),
               $query: {
