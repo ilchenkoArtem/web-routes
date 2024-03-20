@@ -7,7 +7,9 @@ export type Url = `/${string}`;
  * @example
  * ExtractParamName<":id"> // "id"
  */
-export type ExtractParamName<T extends string> = T extends `:${infer Name}` ? Name : never;
+export type ExtractParamName<T extends string> = T extends `:${infer Name}`
+  ? Name
+  : never;
 
 /**
  * Get params from url
@@ -16,7 +18,9 @@ export type ExtractParamName<T extends string> = T extends `:${infer Name}` ? Na
  * GetUrlParams<"/user/:id"> // "id"
  * GetUrlParams<"/user/:id/:id2"> // "id" | "id2"
  */
-export type GetUrlParams<S extends string> = ExtractParamName<Split<S, '/'>[number]>;
+export type GetUrlParams<S extends string> = ExtractParamName<
+  Split<S, '/'>[number]
+>;
 
 /**
  * Check if url has params
@@ -25,7 +29,8 @@ export type GetUrlParams<S extends string> = ExtractParamName<Split<S, '/'>[numb
  * IsUrlWithParams<"/user/:id"> // true
  * IsUrlWithParams<"/user"> // false
  */
-export type IsUrlWithParams<T extends string> = GetUrlParams<T> extends never ? false : true;
+export type IsUrlWithParams<T extends string> =
+  GetUrlParams<T> extends never ? false : true;
 
 /**
  *  Merge two url strings
@@ -40,11 +45,20 @@ export type MergeUrl<P extends string, S extends string> =
       ? Url
       : `${P}${S}`;
 
-export type ExtendsUrlFromParentConfig<TFrom extends RouteConfig, T extends RouteConfig> = Simplify<
+export type ExtendsUrlFromParentConfig<
+  TFrom extends RouteConfig,
+  T extends RouteConfig,
+> = Simplify<
   {
-    url: MergeUrl<TFrom['url'], T['url']> extends `/${string}` ? MergeUrl<TFrom['url'], T['url']> : never;
-  } & (T extends SetRequired<RouteConfig, 'query'> ? { query: T['query'] } : {}) &
-    (T extends SetRequired<RouteConfig, 'children'> ? { children: T['children'] } : {})
+    url: MergeUrl<TFrom['url'], T['url']> extends `/${string}`
+      ? MergeUrl<TFrom['url'], T['url']>
+      : never;
+  } & (T extends SetRequired<RouteConfig, 'query'>
+    ? { query: T['query'] }
+    : {}) &
+    (T extends SetRequired<RouteConfig, 'children'>
+      ? { children: T['children'] }
+      : {})
 >;
 
 export type RouteConfigQuery = Record<string, string>;
@@ -59,7 +73,9 @@ export interface RouteConfig<T extends Url = Url> {
 
 export type RoutesConfig = Record<string, RouteConfig>;
 
-export type RouteQuery<T extends Record<string, string> = Record<string, string>> = {
+export type RouteQuery<
+  T extends Record<string, string> = Record<string, string>,
+> = {
   [K in keyof T]?: string | number;
 };
 
@@ -73,10 +89,14 @@ export interface RouteWithQuery<T extends SetRequired<RouteConfig, 'query'>> {
 }
 
 export interface RouteWithParams<T extends RouteConfig> {
-  $url: (options: { params: Record<GetUrlParams<T['url']>, string | number> }) => string;
+  $url: (options: {
+    params: Record<GetUrlParams<T['url']>, string | number>;
+  }) => string;
 }
 
-export interface RouteWithQueryAndParams<T extends SetRequired<RouteConfig, 'query'>> {
+export interface RouteWithQueryAndParams<
+  T extends SetRequired<RouteConfig, 'query'>,
+> {
   $url: (options: {
     query?: RouteQuery<T['query']>;
     params: Record<GetUrlParams<T['url']>, string | number>;
@@ -86,7 +106,7 @@ export interface RouteWithQueryAndParams<T extends SetRequired<RouteConfig, 'que
 
 //prettier-ignore
 export type Route<T extends RouteConfig, TParent extends RouteConfig = {url: "/"}> = T extends RouteConfig
-  ? IsUrlWithParams<T['url']> extends true
+  ? IsUrlWithParams<T['url'] | TParent['url']> extends true
     ? T extends SetRequired<RouteConfig, "query">
       ? RouteWithQueryAndParams<ExtendsUrlFromParentConfig<TParent, T>>
       : RouteWithParams<ExtendsUrlFromParentConfig<TParent, T>>
@@ -95,8 +115,12 @@ export type Route<T extends RouteConfig, TParent extends RouteConfig = {url: "/"
       : RouteBase
   : never;
 
-export type Routes<T extends RoutesConfig, TParent extends RouteConfig = { url: '/' }> = {
+export type Routes<
+  T extends RoutesConfig,
+  TParent extends RouteConfig = { url: '/' },
+> = {
   [K in keyof T]: T[K] extends SetRequired<RouteConfig, 'children'>
-    ? Route<T[K], TParent> & Routes<T[K]['children'], ExtendsUrlFromParentConfig<TParent, T[K]>>
+    ? Route<T[K], TParent> &
+        Routes<T[K]['children'], ExtendsUrlFromParentConfig<TParent, T[K]>>
     : Route<T[K], TParent>;
 };

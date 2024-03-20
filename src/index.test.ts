@@ -486,7 +486,13 @@ describe('createRoutes', () => {
         });
 
         expect(routes.home.$url({ params: { id1: '1234' } })).toBe('/1234');
-        expect(routes.home.child.$url()).toBe('/1234/child');
+        expect(
+          routes.home.child.$url({
+            params: {
+              id1: '1234',
+            },
+          }),
+        ).toBe('/1234/child');
       });
       it('children static URL and query', () => {
         const routes = createRoutes({
