@@ -526,6 +526,7 @@ describe('createRoutes', () => {
         expect(routes.home.$url({ params: { id1: '1234' } })).toBe('/1234');
         expect(
           routes.home.child.$url({
+            params: { id1: '1234' },
             query: { page: '1', limit: '10' },
           }),
         ).toBe('/1234/child?pageQuery=1&limitQuery=10');
