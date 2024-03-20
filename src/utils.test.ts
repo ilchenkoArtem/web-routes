@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { replaceParams, addQuery, mapRouteQueryToConfigQuery } from './utils';
+import { replaceParams, addQuery, mapRouteQueryToConfigQuery, mergeUrl } from './utils';
 
 describe('utils', () => {
   describe('replaceParams', () => {
@@ -101,6 +101,60 @@ describe('utils', () => {
       expect(mapRouteQueryToConfigQuery(query, configQuery)).toEqual({
         pageQuery: 1,
       });
+    });
+  });
+
+  describe('mergeUrl', () => {
+    const MERGE_URL_TEST_CASES = [
+      {
+        parentUrl: '/',
+        url: '/',
+        expected: '/',
+      },
+      {
+        parentUrl: '',
+        url: '/',
+        expected: '/',
+      },
+      {
+        parentUrl: '/',
+        url: '',
+        expected: '/',
+      },
+      {
+        parentUrl: '',
+        url: '',
+        expected: '/',
+      },
+      {
+        parentUrl: '/test/:id',
+        url: '/child/:id3',
+        expected: '/test/:id/child/:id3',
+      },
+      {
+        parentUrl: '/test',
+        url: '/child',
+        expected: '/test/child',
+      },
+      {
+        parentUrl: '/test/:id',
+        url: '/child/:id3',
+        expected: '/test/:id/child/:id3',
+      },
+      {
+        parentUrl: '/test',
+        url: '/child',
+        expected: '/test/child',
+      },
+      {
+        parentUrl: '/test/',
+        url: '/child',
+        expected: '/test/child',
+      },
+    ] as const;
+
+    it.each(MERGE_URL_TEST_CASES)('$parentUrl + $url to $expected', ({ expected, parentUrl, url }) => {
+      expect(mergeUrl(parentUrl, url)).toEqual(expected);
     });
   });
 });

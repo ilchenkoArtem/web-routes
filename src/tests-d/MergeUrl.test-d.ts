@@ -11,6 +11,7 @@ declare const test7: MergeUrl<'/path/:id', '/'>;
 declare const test8: MergeUrl<'/path', '/path'>;
 declare const test9: MergeUrl<'/path/:id1', '/path/:id2'>;
 declare const test10: MergeUrl<'', ''>;
+declare const test11: MergeUrl<'/:id', '/path'>;
 
 expectType<'/'>(test1);
 expectType<'/'>(test2);
@@ -22,3 +23,4 @@ expectType<'/path/:id'>(test7);
 expectType<'/path/path'>(test8);
 expectType<'/path/:id1/path/:id2'>(test9);
 expectType<'/'>(test10);
+expectType<'/:id/path'>(test11);

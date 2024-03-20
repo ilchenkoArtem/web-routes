@@ -51,3 +51,22 @@ export const mapRouteQueryToConfigQuery = (query: RouteQuery, configQuery: Route
     return acc;
   }, {} as RouteQuery);
 };
+
+/**
+ * Merges the parent URL with the URL.
+ * @example
+ * mergeUrl('/test/:id', '/child/:id3') // '/test/:id/child/:id3'
+ * mergeUrl('/test', '/child') // '/test/child'
+ */
+export const mergeUrl = (parentUrl: string, url: string) => {
+  const normalizedParentUrl = removeFirstAndLastSlash(parentUrl);
+  const normalizedUrl = removeFirstAndLastSlash(url);
+
+  if (!normalizedParentUrl) return `/${normalizedUrl}`;
+  if (!normalizedUrl) return `/${normalizedParentUrl}`;
+  return `/${normalizedParentUrl}/${normalizedUrl}`;
+};
+
+export const removeFirstAndLastSlash = (str: string) => {
+  return str.replace(/^\/|\/$/g, '');
+};

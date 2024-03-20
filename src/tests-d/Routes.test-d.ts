@@ -1,4 +1,10 @@
-import { RouteBase, Routes, RouteWithParams, RouteWithQuery, RouteWithQueryAndParams } from '../types';
+import {
+  RouteBase,
+  Routes,
+  RouteWithParams,
+  RouteWithQuery,
+  RouteWithQueryAndParams,
+} from '../types';
 import { expectType } from 'tsd';
 
 // Base Route
@@ -52,7 +58,9 @@ type testRouteConfigWithParamsAndQuery = {
 };
 declare const routesWithParamsAndQuery: Routes<testRouteConfigWithParamsAndQuery>;
 type expectedRoutesWithParamsAndQuery = {
-  homeWithParamsAndQuery: RouteWithQueryAndParams<testRouteConfigWithParamsAndQuery['homeWithParamsAndQuery']>;
+  homeWithParamsAndQuery: RouteWithQueryAndParams<
+    testRouteConfigWithParamsAndQuery['homeWithParamsAndQuery']
+  >;
 };
 expectType<expectedRoutesWithParamsAndQuery>(routesWithParamsAndQuery);
 
@@ -90,7 +98,9 @@ type testRouteConfigWithParamsAndChildren = {
 
 declare const routesWithParamsAndChildren: Routes<testRouteConfigWithParamsAndChildren>;
 type expectedRoutesWithParamsAndChildren = {
-  homeWithParams: RouteWithParams<testRouteConfigWithParamsAndChildren['homeWithParams']> & {
+  homeWithParams: RouteWithParams<
+    testRouteConfigWithParamsAndChildren['homeWithParams']
+  > & {
     child: RouteBase;
   };
 };
@@ -113,7 +123,9 @@ type testRouteConfigWithQueryAndChildren = {
 
 declare const routesWithQueryAndChildren: Routes<testRouteConfigWithQueryAndChildren>;
 type expectedRoutesWithQueryAndChildren = {
-  homeWithQuery: RouteWithQuery<testRouteConfigWithQueryAndChildren['homeWithQuery']> & {
+  homeWithQuery: RouteWithQuery<
+    testRouteConfigWithQueryAndChildren['homeWithQuery']
+  > & {
     child: RouteBase;
   };
 };
@@ -139,11 +151,15 @@ type expectedRoutesWithParamsAndQueryAndChildren = {
   homeWithParamsAndQuery: RouteWithQueryAndParams<
     testRouteConfigWithParamsAndQueryAndChildren['homeWithParamsAndQuery']
   > & {
-    child: RouteBase;
+    child: RouteWithParams<{
+      url: '/:id/child';
+    }>;
   };
 };
 
-expectType<expectedRoutesWithParamsAndQueryAndChildren>(routesWithParamsAndQueryAndChildren);
+expectType<expectedRoutesWithParamsAndQueryAndChildren>(
+  routesWithParamsAndQueryAndChildren,
+);
 
 // Base route with children params
 type testRouteConfigWithChildrenWithParams = {
@@ -160,7 +176,9 @@ type testRouteConfigWithChildrenWithParams = {
 declare const routesWithChildrenWithParams: Routes<testRouteConfigWithChildrenWithParams>;
 type expectedRoutesWithChildrenWithParams = {
   home: RouteBase & {
-    child: RouteWithParams<testRouteConfigWithChildrenWithParams['home']['children']['child']>;
+    child: RouteWithParams<{
+      url: '/:id';
+    }>;
   };
 };
 expectType<expectedRoutesWithChildrenWithParams>(routesWithChildrenWithParams);
@@ -196,4 +214,6 @@ type expectedRoutesWithParamsAndWithChildrenWithParams = {
     };
   };
 };
-expectType<expectedRoutesWithParamsAndWithChildrenWithParams>(routesWithParamsAndWithChildrenWithParams);
+expectType<expectedRoutesWithParamsAndWithChildrenWithParams>(
+  routesWithParamsAndWithChildrenWithParams,
+);
