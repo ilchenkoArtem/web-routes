@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { replaceParams, addQuery, mapRouteQueryToConfigQuery, mergeUrl } from './utils';
+import {
+  replaceParams,
+  addQuery,
+  mapRouteQueryToConfigQuery,
+  mergeUrl,
+} from './utils';
 
 describe('utils', () => {
   describe('replaceParams', () => {
@@ -10,14 +15,19 @@ describe('utils', () => {
         expected: '/1',
       },
       {
-        url: '/:id/:name',
-        params: { id: 1, name: 'test' },
-        expected: '/1/test',
-      },
-      {
         url: '/path/:id',
         params: { id: 1 },
         expected: '/path/1',
+      },
+      {
+        url: '/:id/path',
+        params: { id: 1 },
+        expected: '/1/path',
+      },
+      {
+        url: '/:id/:name',
+        params: { id: 1, name: 'test' },
+        expected: '/1/test',
       },
       {
         url: '/path/:id/path',
@@ -36,9 +46,12 @@ describe('utils', () => {
       },
     ] as const;
 
-    it.each(REPLACE_PARAMS_TEST_CASES)('$url to $expected', ({ expected, params, url }) => {
-      expect(replaceParams(url, params)).toEqual(expected);
-    });
+    it.each(REPLACE_PARAMS_TEST_CASES)(
+      '$url to $expected',
+      ({ expected, params, url }) => {
+        expect(replaceParams(url, params)).toEqual(expected);
+      },
+    );
   });
 
   describe('addQuery', () => {
@@ -65,9 +78,12 @@ describe('utils', () => {
       },
     ] as const;
 
-    it.each(ADD_QUERY_TEST_CASES)('$url to $expected', ({ expected, query, url }) => {
-      expect(addQuery(url, query)).toEqual(expected);
-    });
+    it.each(ADD_QUERY_TEST_CASES)(
+      '$url to $expected',
+      ({ expected, query, url }) => {
+        expect(addQuery(url, query)).toEqual(expected);
+      },
+    );
   });
 
   describe('mapRouteQueryToConfigQuery', () => {
@@ -153,8 +169,11 @@ describe('utils', () => {
       },
     ] as const;
 
-    it.each(MERGE_URL_TEST_CASES)('$parentUrl + $url to $expected', ({ expected, parentUrl, url }) => {
-      expect(mergeUrl(parentUrl, url)).toEqual(expected);
-    });
+    it.each(MERGE_URL_TEST_CASES)(
+      '$parentUrl + $url to $expected',
+      ({ expected, parentUrl, url }) => {
+        expect(mergeUrl(parentUrl, url)).toEqual(expected);
+      },
+    );
   });
 });

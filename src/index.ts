@@ -1,8 +1,24 @@
-import { RouteBase, Routes, RoutesConfig, RouteWithParams, RouteWithQuery, RouteWithQueryAndParams } from './types';
+import {
+  RouteBase,
+  Routes,
+  RoutesConfig,
+  RouteWithParams,
+  RouteWithQuery,
+  RouteWithQueryAndParams,
+} from './types';
 
-import { replaceParams, addQuery, mapRouteQueryToConfigQuery, mergeUrl } from './utils';
+import {
+  replaceParams,
+  addQuery,
+  mapRouteQueryToConfigQuery,
+  mergeUrl,
+} from './utils';
 
-export type RouteTypes = RouteBase | RouteWithQuery<any> | RouteWithParams<any> | RouteWithQueryAndParams<any>;
+export type RouteTypes =
+  | RouteBase
+  | RouteWithQuery<any>
+  | RouteWithParams<any>
+  | RouteWithQueryAndParams<any>;
 
 export interface UrlOptions {
   query?: Record<string, string | number>;
@@ -25,7 +41,10 @@ export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
           }
 
           if (routeConfig.query && options.query) {
-            const mappedQuery = mapRouteQueryToConfigQuery(options.query, routeConfig.query);
+            const mappedQuery = mapRouteQueryToConfigQuery(
+              options.query,
+              routeConfig.query,
+            );
             url = addQuery(url, mappedQuery);
           }
 
