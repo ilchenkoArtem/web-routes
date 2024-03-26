@@ -89,8 +89,8 @@ describe('utils', () => {
   describe('mapRouteQueryToConfigQuery', () => {
     it('should map the query parameters to the route config', () => {
       const query = {
-        page: 1,
-        limit: 10,
+        page: '1',
+        limit: '10',
       };
 
       const configQuery = {
@@ -99,15 +99,15 @@ describe('utils', () => {
       };
 
       expect(mapRouteQueryToConfigQuery(query, configQuery)).toEqual({
-        pageQuery: 1,
-        limitQuery: 10,
+        pageQuery: '1',
+        limitQuery: '10',
       });
     });
 
     it('should ignore the query parameters that are not defined in the route config', () => {
       const query = {
-        page: 1,
-        limit: 10,
+        page: '1',
+        limit: '10',
       };
 
       const configQuery = {
@@ -115,7 +115,7 @@ describe('utils', () => {
       };
 
       expect(mapRouteQueryToConfigQuery(query, configQuery)).toEqual({
-        pageQuery: 1,
+        pageQuery: '1',
       });
     });
   });

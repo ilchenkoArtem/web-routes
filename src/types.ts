@@ -74,15 +74,13 @@ export interface RouteConfig<T extends Url = Url> {
 export type RoutesConfig = Record<string, RouteConfig>;
 
 export type RouteQuery<T extends RouteConfigQuery = Record<string, string>> =
-  T extends Record<string, string>
+  T extends string[]
     ? {
-        [K in keyof T]?: string;
+        [Key in T[number]]?: string;
       }
-    : T extends string[]
-      ? {
-          [Key in T[number]]?: string;
-        }
-      : never;
+    : {
+        [Key in keyof T]?: string;
+      };
 
 export interface RouteBase {
   $url: () => string;

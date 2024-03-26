@@ -1,4 +1,4 @@
-import { RouteConfigQuery, RouteQuery } from './types';
+import { RouteQuery } from './types';
 
 /**
  * Replaces the parameters in the URL with the values from the params object.
@@ -50,7 +50,7 @@ export const addQuery = (
  */
 export const mapRouteQueryToConfigQuery = (
   query: RouteQuery,
-  configQuery: RouteConfigQuery,
+  configQuery: Partial<Record<string, string>>,
 ) => {
   const entries = Object.entries(query);
 
