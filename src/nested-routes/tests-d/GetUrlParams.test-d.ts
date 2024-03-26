@@ -1,4 +1,4 @@
-import { GetUrlParams } from '../types';
+import { GetUrlParams } from 'src/nested-routes/types';
 import { expectNever, expectType } from 'tsd';
 
 // 1. Single param

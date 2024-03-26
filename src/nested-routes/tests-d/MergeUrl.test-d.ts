@@ -1,4 +1,4 @@
-import { MergeUrl } from '../types';
+import { MergeUrl } from 'src/nested-routes/types';
 import { expectType } from 'tsd';
 
 declare const test1: MergeUrl<'/', ''>;

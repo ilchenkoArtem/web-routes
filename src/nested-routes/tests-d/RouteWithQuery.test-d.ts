@@ -1,4 +1,4 @@
-import { RouteQuery, RouteWithQuery } from '../types';
+import { RouteQuery, RouteWithQuery } from 'src/nested-routes/types';
 import { expectType } from 'tsd';
 
 declare const testConfig: RouteWithQuery<{
@@ -10,7 +10,9 @@ declare const testConfig: RouteWithQuery<{
 }>;
 
 type expectedRoute = {
-  $url: (options?: { query?: RouteQuery<Record<'id' | 'id2', string>> }) => string;
+  $url: (options?: {
+    query?: RouteQuery<Record<'id' | 'id2', string>>;
+  }) => string;
   $query: {
     id: 'idQuery';
     id2: 'id2Query';

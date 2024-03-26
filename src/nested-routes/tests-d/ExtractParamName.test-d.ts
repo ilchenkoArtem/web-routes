@@ -1,5 +1,5 @@
 import { expectNever, expectType } from 'tsd';
-import { ExtractParamName } from '../types';
+import { ExtractParamName } from 'src/nested-routes/types';
 
 declare const test1: ExtractParamName<':id'>;
 expectType<'id'>(test1);

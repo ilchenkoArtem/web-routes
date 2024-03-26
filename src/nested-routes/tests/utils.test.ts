@@ -5,7 +5,7 @@ import {
   mapRouteQueryToConfigQuery,
   mergeUrl,
   configQueryToRouteQuery,
-} from './utils';
+} from '../utils';
 
 describe('utils', () => {
   describe('replaceParams', () => {

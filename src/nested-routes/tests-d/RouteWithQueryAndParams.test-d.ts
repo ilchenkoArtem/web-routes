@@ -1,4 +1,4 @@
-import { RouteQuery, RouteWithQueryAndParams } from '../types';
+import { RouteQuery, RouteWithQueryAndParams } from 'src/nested-routes/types';
 import { expectType } from 'tsd';
 
 declare const testConfig: RouteWithQueryAndParams<{

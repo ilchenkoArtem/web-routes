@@ -1,6 +1,6 @@
 // Object query config to route query config
 import { expectType } from 'tsd';
-import { RouteQuery } from '../types';
+import { RouteQuery } from 'src/nested-routes/types';
 
 declare const test1: RouteQuery<{
   id: 'idQuery';

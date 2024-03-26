@@ -1,4 +1,4 @@
-import { ExtendsUrlFromParentConfig } from '../types';
+import { ExtendsUrlFromParentConfig } from 'src/nested-routes/types';
 import { expectType } from 'tsd';
 
 // Base Route + Base Route
