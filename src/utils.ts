@@ -1,4 +1,4 @@
-import { RouteQuery } from './types';
+import { RouteConfigQuery, RouteQuery } from './types';
 
 /**
  * Replaces the parameters in the URL with the values from the params object.
@@ -88,4 +88,20 @@ export const mergeUrl = (parentUrl: string, url: string) => {
 
 export const removeFirstAndLastSlash = (str: string) => {
   return str.replace(/^\/|\/$/g, '');
+};
+
+export const configQueryToRouteQuery = (
+  configQuery: RouteConfigQuery | undefined,
+): RouteQuery => {
+  if (Array.isArray(configQuery)) {
+    return configQuery.reduce(
+      (acc, key) => {
+        acc[key] = key;
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+  }
+
+  return configQuery || ({} as Record<string, string>);
 };

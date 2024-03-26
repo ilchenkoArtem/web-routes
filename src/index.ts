@@ -12,6 +12,7 @@ import {
   addQuery,
   mapRouteQueryToConfigQuery,
   mergeUrl,
+  configQueryToRouteQuery,
 } from './utils';
 
 export type RouteTypes =
@@ -31,15 +32,7 @@ export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
 
     Object.entries(config).forEach(([routeId, routeConfig]) => {
       let url: string = mergeUrl(parentUrl, routeConfig.url);
-      const configQueryObject = Array.isArray(routeConfig.query)
-        ? routeConfig.query.reduce(
-            (acc, key) => {
-              acc[key] = key;
-              return acc;
-            },
-            {} as Record<string, string>,
-          )
-        : routeConfig.query || {};
+      const configQueryObject = configQueryToRouteQuery(routeConfig.query);
 
       routes[routeId] = {
         $url: (options: UrlOptions = {}) => {
@@ -60,7 +53,7 @@ export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
           return url;
         },
         ...(routeConfig.query && {
-          $query: routeConfig.query,
+          $query: configQueryObject,
         }),
         ...(routeConfig.children && {
           ...buildRoutes(routeConfig.children, url),

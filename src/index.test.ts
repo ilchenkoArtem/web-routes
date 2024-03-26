@@ -48,6 +48,33 @@ describe('createRoutes', () => {
         }),
       ).toBe('/?pageQuery=1&limitQuery=10');
     });
+    it('should create a route with a static URL and a query array', () => {
+      const routes = createRoutes({
+        homeWithQueryArray: {
+          url: '/',
+          query: ['pageQuery', 'limitQuery'],
+        },
+      });
+
+      expect(routes).toEqual({
+        homeWithQueryArray: {
+          $url: expect.any(Function),
+          $query: {
+            pageQuery: 'pageQuery',
+            limitQuery: 'limitQuery',
+          },
+        },
+      });
+
+      expect(
+        routes.homeWithQueryArray.$url({
+          query: {
+            pageQuery: '1',
+            limitQuery: '10',
+          },
+        }),
+      ).toBe('/?pageQuery=1&limitQuery=10');
+    });
     it('should create a route with a dynamic URL', () => {
       const routes = createRoutes({
         homeWithParams: {
@@ -98,6 +125,36 @@ describe('createRoutes', () => {
           query: {
             page: '1',
             limit: '10',
+          },
+        }),
+      ).toBe('/1234?pageQuery=1&limitQuery=10');
+    });
+    it('should create a route with a dynamic URL and a query array', () => {
+      const routes = createRoutes({
+        homeWithParamsAndQueryArray: {
+          url: '/:id',
+          query: ['pageQuery', 'limitQuery'],
+        },
+      });
+
+      expect(routes).toEqual({
+        homeWithParamsAndQueryArray: {
+          $url: expect.any(Function),
+          $query: {
+            pageQuery: 'pageQuery',
+            limitQuery: 'limitQuery',
+          },
+        },
+      });
+
+      expect(
+        routes.homeWithParamsAndQueryArray.$url({
+          params: {
+            id: '1234',
+          },
+          query: {
+            pageQuery: '1',
+            limitQuery: '10',
           },
         }),
       ).toBe('/1234?pageQuery=1&limitQuery=10');

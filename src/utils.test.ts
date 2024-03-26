@@ -4,6 +4,7 @@ import {
   addQuery,
   mapRouteQueryToConfigQuery,
   mergeUrl,
+  configQueryToRouteQuery,
 } from './utils';
 
 describe('utils', () => {
@@ -175,5 +176,25 @@ describe('utils', () => {
         expect(mergeUrl(parentUrl, url)).toEqual(expected);
       },
     );
+  });
+
+  describe('configQueryToRouteQuery', () => {
+    it('should return an object with the query parameters as keys', () => {
+      expect(configQueryToRouteQuery(['page', 'limit'])).toEqual({
+        page: 'page',
+        limit: 'limit',
+      });
+    });
+
+    it('should return an empty object if the config query is not defined', () => {
+      expect(configQueryToRouteQuery(undefined)).toEqual({});
+    });
+
+    it('should return an object with the query parameters as keys', () => {
+      expect(configQueryToRouteQuery(['page', 'limit'])).toEqual({
+        page: 'page',
+        limit: 'limit',
+      });
+    });
   });
 });
