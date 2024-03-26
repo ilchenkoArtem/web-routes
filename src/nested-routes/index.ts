@@ -26,9 +26,7 @@ export interface UrlOptions {
   params?: Record<string, string | number>;
 }
 
-export const createNestedRoutes = <T extends RoutesConfig>(
-  config: T,
-): Routes<T> => {
+export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
   const buildRoutes = (config: RoutesConfig, parentUrl: string = '/') => {
     let routes = {} as Record<string, RouteTypes>;
 

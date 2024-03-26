@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { createNestedRoutes } from '../index';
+import { createRoutes } from '../index';
 
 describe('createRoutes', () => {
   describe('simple routes', () => {
     it('should create a route with a static URL', () => {
-      const routes = createNestedRoutes({
+      const routes = createRoutes({
         home: {
           url: '/',
         },
@@ -19,7 +19,7 @@ describe('createRoutes', () => {
       expect(routes.home.$url()).toBe('/');
     });
     it('should create a route with a static URL and a query', () => {
-      const routes = createNestedRoutes({
+      const routes = createRoutes({
         homeWithQuery: {
           url: '/',
           query: {
@@ -49,7 +49,7 @@ describe('createRoutes', () => {
       ).toBe('/?pageQuery=1&limitQuery=10');
     });
     it('should create a route with a static URL and a query array', () => {
-      const routes = createNestedRoutes({
+      const routes = createRoutes({
         homeWithQueryArray: {
           url: '/',
           query: ['pageQuery', 'limitQuery'],
@@ -76,7 +76,7 @@ describe('createRoutes', () => {
       ).toBe('/?pageQuery=1&limitQuery=10');
     });
     it('should create a route with a dynamic URL', () => {
-      const routes = createNestedRoutes({
+      const routes = createRoutes({
         homeWithParams: {
           url: '/:id',
         },
@@ -97,7 +97,7 @@ describe('createRoutes', () => {
       ).toBe('/1234');
     });
     it('should create a route with a dynamic URL and a query', () => {
-      const routes = createNestedRoutes({
+      const routes = createRoutes({
         homeWithParamsAndQuery: {
           url: '/:id',
           query: {
@@ -130,7 +130,7 @@ describe('createRoutes', () => {
       ).toBe('/1234?pageQuery=1&limitQuery=10');
     });
     it('should create a route with a dynamic URL and a query array', () => {
-      const routes = createNestedRoutes({
+      const routes = createRoutes({
         homeWithParamsAndQueryArray: {
           url: '/:id',
           query: ['pageQuery', 'limitQuery'],
@@ -160,7 +160,7 @@ describe('createRoutes', () => {
       ).toBe('/1234?pageQuery=1&limitQuery=10');
     });
     it('should create routes with full example', () => {
-      const routes = createNestedRoutes({
+      const routes = createRoutes({
         base: {
           url: '/',
         },
@@ -225,7 +225,7 @@ describe('createRoutes', () => {
   describe('nested routes', () => {
     describe('static parent URL', () => {
       it('children static URL', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/',
             children: {
@@ -247,7 +247,7 @@ describe('createRoutes', () => {
         expect(routes.home.child.$url()).toBe('/child');
       });
       it('children static URL and query', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/',
             children: {
@@ -286,7 +286,7 @@ describe('createRoutes', () => {
         ).toBe('/child?pageQuery=1&limitQuery=10');
       });
       it('children dynamic URL', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/',
             children: {
@@ -310,7 +310,7 @@ describe('createRoutes', () => {
         );
       });
       it('children dynamic URL and query', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/',
             children: {
@@ -349,7 +349,7 @@ describe('createRoutes', () => {
     });
     describe('static parent URL and query', () => {
       it('children static URL', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/',
             query: {
@@ -379,7 +379,7 @@ describe('createRoutes', () => {
         expect(routes.home.child.$url()).toBe('/child');
       });
       it('children static URL and query', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/',
             query: {
@@ -419,7 +419,7 @@ describe('createRoutes', () => {
         expect(routes.home.child.$url()).toBe('/child');
       });
       it('children dynamic URL', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/',
             query: {
@@ -449,7 +449,7 @@ describe('createRoutes', () => {
         expect(routes.home.child.$url({ params: { id2: '2' } })).toBe('/2');
       });
       it('children dynamic URL and query', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/',
             query: {
@@ -496,7 +496,7 @@ describe('createRoutes', () => {
     });
     describe('dynamic parent URL', () => {
       it('children static URL', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/:id1',
             children: {
@@ -524,7 +524,7 @@ describe('createRoutes', () => {
         ).toBe('/1234/child');
       });
       it('children static URL and query', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/:id1',
             children: {
@@ -561,7 +561,7 @@ describe('createRoutes', () => {
         ).toBe('/1234/child?pageQuery=1&limitQuery=10');
       });
       it('children dynamic URL', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/:id1',
             children: {
@@ -587,7 +587,7 @@ describe('createRoutes', () => {
         ).toBe('/1/2');
       });
       it('children dynamic URL and query', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/:id1',
             children: {
@@ -626,7 +626,7 @@ describe('createRoutes', () => {
     });
     describe('dynamic parent URL and query', () => {
       it('children static URL', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/:id1',
             query: {
@@ -662,7 +662,7 @@ describe('createRoutes', () => {
         ).toBe('/1234/child');
       });
       it('children static URL and query', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/:id1',
             query: {
@@ -704,7 +704,7 @@ describe('createRoutes', () => {
         );
       });
       it('children dynamic URL', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/:id1',
             query: {
@@ -738,7 +738,7 @@ describe('createRoutes', () => {
         ).toBe('/1/2');
       });
       it('children dynamic URL and query', () => {
-        const routes = createNestedRoutes({
+        const routes = createRoutes({
           home: {
             url: '/:id1',
             query: {
