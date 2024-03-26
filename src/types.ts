@@ -61,7 +61,7 @@ export type ExtendsUrlFromParentConfig<
       : {})
 >;
 
-export type RouteConfigQuery = Record<string, string>;
+export type RouteConfigQuery = Record<string, string> | string[];
 export type RouteConfigParams = Record<string, string>;
 
 export interface RouteConfig<T extends Url = Url> {
@@ -73,11 +73,16 @@ export interface RouteConfig<T extends Url = Url> {
 
 export type RoutesConfig = Record<string, RouteConfig>;
 
-export type RouteQuery<
-  T extends Record<string, string> = Record<string, string>,
-> = {
-  [K in keyof T]?: string | number;
-};
+export type RouteQuery<T extends RouteConfigQuery = Record<string, string>> =
+  T extends Record<string, string>
+    ? {
+        [K in keyof T]?: string;
+      }
+    : T extends string[]
+      ? {
+          [Key in T[number]]?: string;
+        }
+      : never;
 
 export interface RouteBase {
   $url: () => string;

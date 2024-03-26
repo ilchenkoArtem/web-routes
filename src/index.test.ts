@@ -18,7 +18,6 @@ describe('createRoutes', () => {
 
       expect(routes.home.$url()).toBe('/');
     });
-
     it('should create a route with a static URL and a query', () => {
       const routes = createRoutes({
         homeWithQuery: {
@@ -49,7 +48,6 @@ describe('createRoutes', () => {
         }),
       ).toBe('/?pageQuery=1&limitQuery=10');
     });
-
     it('should create a route with a dynamic URL', () => {
       const routes = createRoutes({
         homeWithParams: {
@@ -71,7 +69,6 @@ describe('createRoutes', () => {
         }),
       ).toBe('/1234');
     });
-
     it('should create a route with a dynamic URL and a query', () => {
       const routes = createRoutes({
         homeWithParamsAndQuery: {
@@ -105,7 +102,6 @@ describe('createRoutes', () => {
         }),
       ).toBe('/1234?pageQuery=1&limitQuery=10');
     });
-
     it('should create routes with full example', () => {
       const routes = createRoutes({
         base: {
@@ -168,6 +164,7 @@ describe('createRoutes', () => {
       ).toBe('/1234?flor4PageQuery=1&flor4LimitQuery=10');
     });
   });
+
   describe('nested routes', () => {
     describe('static parent URL', () => {
       it('children static URL', () => {
@@ -721,12 +718,20 @@ describe('createRoutes', () => {
         });
 
         expect(routes.home.$url({ params: { id1: '1234' } })).toBe('/1234');
+        expect(routes.home.$query).toEqual({
+          page: 'pageQuery',
+          limit: 'limitQuery',
+        });
         expect(
           routes.home.child.$url({
             params: { id1: '1', id2: '2' },
             query: { page: '1', limit: '10' },
           }),
         ).toBe('/1/2?pageQuery=1&limitQuery=10');
+        expect(routes.home.child.$query).toEqual({
+          page: 'pageQuery',
+          limit: 'limitQuery',
+        });
       });
     });
   });
