@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { IsUrlWithParams } from 'src/nested-routes/types';
+import { IsUrlWithParams } from '../types';
 
 // 1. Positive cases:
 declare const test1_1: IsUrlWithParams<'/:id'>;

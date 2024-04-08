@@ -61,7 +61,7 @@
     }
   },
   "tsd": {
-    "directory": "src/tests-d"
+    "directory": "src/nested-routes/tests-d"
   },
   "lint-staged": {
     "*": [

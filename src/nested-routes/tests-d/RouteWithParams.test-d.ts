@@ -1,4 +1,4 @@
-import { RouteWithParams } from 'src/nested-routes/types';
+import { RouteWithParams } from '../types';
 import { expectType } from 'tsd';
 
 declare const testConfig: RouteWithParams<{

@@ -4,7 +4,7 @@ import {
   RouteWithParams,
   RouteWithQuery,
   RouteWithQueryAndParams,
-} from 'src/nested-routes/types';
+} from '../types';
 import { expectType } from 'tsd';
 
 // Base Route
