@@ -4,7 +4,7 @@ import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/guide/build.html#library-mode
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
@@ -13,10 +13,9 @@ export default defineConfig(({ mode }) => ({
     },
   },
   test: { environment: 'jsdom' },
-  define: process.env.VITEST ? {} : { global: 'window' },
   plugins: [
     dts({
       insertTypesEntry: true,
     }),
   ],
-}));
+});
