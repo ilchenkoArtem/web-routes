@@ -6,7 +6,10 @@ declare const testConfig: RouteWithParams<{
 }>;
 
 type expectedRoute = {
-  $url: (options: { params: Record<'id' | 'id2', string | number> }) => string;
+  $url: (options: {
+    params: Record<'id' | 'id2', string | number>;
+    withBackTo?: boolean;
+  }) => string;
 };
 
 expectType<expectedRoute>(testConfig);

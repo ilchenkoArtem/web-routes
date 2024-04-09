@@ -1,10 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vitest as vi } from 'vitest';
 import {
   replaceParams,
   addQuery,
   mapRouteQueryToConfigQuery,
   mergeUrl,
   configQueryToRouteQuery,
+  addBackToQuery,
 } from '../utils';
 
 describe('utils', () => {
@@ -195,6 +196,48 @@ describe('utils', () => {
         page: 'page',
         limit: 'limit',
       });
+    });
+  });
+
+  describe('addBackToQuery', () => {
+    const originalLocation = window;
+
+    afterEach(() => {
+      vi.resetAllMocks();
+      Object.defineProperty(globalThis, 'window', {
+        value: originalLocation,
+      });
+    });
+
+    it('should add current address as backTo query', () => {
+      vi.spyOn(window, 'location', 'get').mockReturnValue({
+        ...window.location,
+        pathname: '/mock-path',
+      });
+
+      expect(addBackToQuery('/test-url')).toBe(
+        `/test-url?backTo=${encodeURIComponent('/mock-path')}`,
+      );
+    });
+
+    it('should add current address and query as backTo query', () => {
+      vi.spyOn(window, 'location', 'get').mockReturnValue({
+        ...window.location,
+        pathname: '/mock-path',
+        search: '?query=1',
+      });
+
+      expect(addBackToQuery('/test-url')).toBe(
+        `/test-url?backTo=${encodeURIComponent('/mock-path?query=1')}`,
+      );
+    });
+
+    it('should not add backTo query if window is not defined', () => {
+      Object.defineProperty(globalThis, 'window', {
+        value: undefined,
+      });
+
+      expect(addBackToQuery('/test-url')).toBe('/test-url');
     });
   });
 });

@@ -105,3 +105,11 @@ export const configQueryToRouteQuery = (
 
   return configQuery || ({} as Record<string, string>);
 };
+
+export const addBackToQuery = (url: string) => {
+  if (typeof window === 'undefined') return url;
+
+  return addQuery(url, {
+    backTo: window.location.pathname + window.location.search,
+  });
+};

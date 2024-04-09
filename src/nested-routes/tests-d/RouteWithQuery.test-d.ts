@@ -12,6 +12,7 @@ declare const testConfig: RouteWithQuery<{
 type expectedRoute = {
   $url: (options?: {
     query?: RouteQuery<Record<'id' | 'id2', string>>;
+    withBackTo?: boolean;
   }) => string;
   $query: {
     id: 'idQuery';

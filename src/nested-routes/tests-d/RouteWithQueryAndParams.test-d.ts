@@ -13,6 +13,7 @@ type expectedRoute = {
   $url: (options: {
     query?: RouteQuery<Record<'id' | 'id2', string>>;
     params: Record<'id' | 'id2', string | number>;
+    withBackTo?: boolean;
   }) => string;
   $query: {
     id: 'idQuery';

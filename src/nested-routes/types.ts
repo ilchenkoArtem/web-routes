@@ -69,6 +69,7 @@ export interface RouteConfig<T extends Url = Url> {
   children?: RoutesConfig;
   query?: RouteConfigQuery;
   params?: RouteConfigParams;
+  withBackTo?: boolean;
 }
 
 export type RoutesConfig = Record<string, RouteConfig>;
@@ -83,17 +84,21 @@ export type RouteQuery<T extends RouteConfigQuery = Record<string, string>> =
       };
 
 export interface RouteBase {
-  $url: () => string;
+  $url: (options?: { withBackTo?: boolean }) => string;
 }
 
 export interface RouteWithQuery<T extends SetRequired<RouteConfig, 'query'>> {
-  $url: (options?: { query?: RouteQuery<T['query']> }) => string;
+  $url: (options?: {
+    query?: RouteQuery<T['query']>;
+    withBackTo?: boolean;
+  }) => string;
   $query: T['query'];
 }
 
 export interface RouteWithParams<T extends RouteConfig> {
   $url: (options: {
     params: Record<GetUrlParams<T['url']>, string | number>;
+    withBackTo?: boolean;
   }) => string;
 }
 
@@ -103,6 +108,7 @@ export interface RouteWithQueryAndParams<
   $url: (options: {
     query?: RouteQuery<T['query']>;
     params: Record<GetUrlParams<T['url']>, string | number>;
+    withBackTo?: boolean;
   }) => string;
   $query: T['query'];
 }

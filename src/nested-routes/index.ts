@@ -24,6 +24,7 @@ export type RouteTypes =
 export interface UrlOptions {
   query?: Record<string, string>;
   params?: Record<string, string | number>;
+  withBackTo?: boolean;
 }
 
 export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
@@ -48,6 +49,13 @@ export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
               configQueryObject,
             );
             url = addQuery(url, mappedQuery);
+          }
+
+          const withBackTo = options.withBackTo ?? !!routeConfig.withBackTo;
+          if (withBackTo && typeof window !== 'undefined') {
+            url = addQuery(url, {
+              backTo: window.location.pathname + window.location.search,
+            });
           }
 
           return url;
