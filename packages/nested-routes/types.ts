@@ -53,14 +53,12 @@ export type ExtendsUrlFromParentConfig<
     url: MergeUrl<TFrom['url'], T['url']> extends `/${string}`
       ? MergeUrl<TFrom['url'], T['url']>
       : never;
-  } & (T extends SetRequired<RouteConfig, 'query'>
-    ? { query: T['query'] }
-    : {}) &
-    (T extends SetRequired<RouteConfig, 'children'>
-      ? { children: T['children'] }
-      : {})
+  } & (T extends RouteConfigWithQuery ? { query: T['query'] } : object) &
+    (T extends RouteConfigWithChildren ? { children: T['children'] } : object)
 >;
 
+export type RouteConfigWithQuery = SetRequired<RouteConfig, 'query'>;
+export type RouteConfigWithChildren = SetRequired<RouteConfig, 'children'>;
 export type RouteConfigQuery = Record<string, string> | string[];
 export type RouteConfigParams = Record<string, string>;
 
@@ -87,7 +85,9 @@ export interface RouteBase {
   $url: (options?: { withBackTo?: boolean }) => string;
 }
 
-export interface RouteWithQuery<T extends SetRequired<RouteConfig, 'query'>> {
+export interface RouteWithQuery<
+  T extends RouteConfigWithQuery = RouteConfigWithQuery,
+> {
   $url: (options?: {
     query?: RouteQuery<T['query']>;
     withBackTo?: boolean;
@@ -95,7 +95,7 @@ export interface RouteWithQuery<T extends SetRequired<RouteConfig, 'query'>> {
   $query: T['query'];
 }
 
-export interface RouteWithParams<T extends RouteConfig> {
+export interface RouteWithParams<T extends RouteConfig = RouteConfig> {
   $url: (options: {
     params: Record<GetUrlParams<T['url']>, string | number>;
     withBackTo?: boolean;
@@ -103,7 +103,7 @@ export interface RouteWithParams<T extends RouteConfig> {
 }
 
 export interface RouteWithQueryAndParams<
-  T extends SetRequired<RouteConfig, 'query'>,
+  T extends RouteConfigWithQuery = RouteConfigWithQuery,
 > {
   $url: (options: {
     query?: RouteQuery<T['query']>;
@@ -116,10 +116,10 @@ export interface RouteWithQueryAndParams<
 //prettier-ignore
 export type Route<T extends RouteConfig, TParent extends RouteConfig = {url: "/"}> = T extends RouteConfig
   ? IsUrlWithParams<T['url'] | TParent['url']> extends true
-    ? T extends SetRequired<RouteConfig, "query">
+    ? T extends RouteConfigWithQuery
       ? RouteWithQueryAndParams<ExtendsUrlFromParentConfig<TParent, T>>
       : RouteWithParams<ExtendsUrlFromParentConfig<TParent, T>>
-    : T extends SetRequired<RouteConfig, "query">
+    : T extends RouteConfigWithQuery
       ? RouteWithQuery<ExtendsUrlFromParentConfig<TParent, T>>
       : RouteBase
   : never;
@@ -128,7 +128,7 @@ export type Routes<
   T extends RoutesConfig,
   TParent extends RouteConfig = { url: '/' },
 > = {
-  [K in keyof T]: T[K] extends SetRequired<RouteConfig, 'children'>
+  [K in keyof T]: T[K] extends RouteConfigWithChildren
     ? Route<T[K], TParent> &
         Routes<T[K]['children'], ExtendsUrlFromParentConfig<TParent, T[K]>>
     : Route<T[K], TParent>;

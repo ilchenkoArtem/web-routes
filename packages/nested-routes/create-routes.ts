@@ -17,9 +17,9 @@ import {
 
 export type RouteTypes =
   | RouteBase
-  | RouteWithQuery<any>
-  | RouteWithParams<any>
-  | RouteWithQueryAndParams<any>;
+  | RouteWithQuery
+  | RouteWithParams
+  | RouteWithQueryAndParams;
 
 export interface UrlOptions {
   query?: Record<string, string>;
@@ -29,7 +29,7 @@ export interface UrlOptions {
 
 export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
   const buildRoutes = (config: RoutesConfig, parentUrl: string = '/') => {
-    let routes = {} as Record<string, RouteTypes>;
+    const routes = {} as Record<string, RouteTypes>;
 
     Object.entries(config).forEach(([routeId, routeConfig]) => {
       let url: string = mergeUrl(parentUrl, routeConfig.url);

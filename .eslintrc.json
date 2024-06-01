@@ -23,5 +23,6 @@
   },
   "rules": {
     "no-console" : 2
-  }
+  },
+  "ignorePatterns": ["**/*.test-d.ts"]
 }

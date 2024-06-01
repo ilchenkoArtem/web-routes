@@ -60,6 +60,7 @@ export const mapRouteQueryToConfigQuery = (
     const queryName = configQuery[key];
 
     if (!queryName) {
+      // eslint-disable-next-line no-console
       console.warn(
         `Query parameter "${key}" is not defined in the route config`,
       );
