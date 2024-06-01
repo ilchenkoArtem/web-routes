@@ -1,4 +1,4 @@
-import { SetRequired, Simplify, Split } from 'type-fest';
+import type { SetRequired, Simplify, Split } from 'type-fest';
 
 export type Url = `/${string}`;
 
