@@ -8,6 +8,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
+      formats: ['es'],
       name: 'my-lib',
       fileName: 'my-lib',
     },
@@ -16,6 +17,7 @@ export default defineConfig({
   plugins: [
     dts({
       insertTypesEntry: true,
+      exclude: ['**/tests/**', '**/tests-d/**'],
     }),
   ],
 });
