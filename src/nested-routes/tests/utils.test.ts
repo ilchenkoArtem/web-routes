@@ -89,6 +89,10 @@ describe('utils', () => {
   });
 
   describe('mapRouteQueryToConfigQuery', () => {
+    it('should return empty object if set empty query', () => {
+      expect(mapRouteQueryToConfigQuery({}, {})).toEqual({});
+    });
+
     it('should map the query parameters to the route config', () => {
       const query = {
         page: '1',
@@ -124,6 +128,11 @@ describe('utils', () => {
 
   describe('mergeUrl', () => {
     const MERGE_URL_TEST_CASES = [
+      {
+        parentUrl: '',
+        url: '',
+        expected: '/',
+      },
       {
         parentUrl: '/',
         url: '/',

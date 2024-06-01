@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createRoutes } from '../index';
+import { createRoutes } from '../create-routes';
 
 describe('createRoutes', () => {
   describe('simple routes', () => {

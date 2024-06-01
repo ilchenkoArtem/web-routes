@@ -81,8 +81,10 @@ export const mergeUrl = (parentUrl: string, url: string) => {
   const normalizedParentUrl = removeFirstAndLastSlash(parentUrl);
   const normalizedUrl = removeFirstAndLastSlash(url);
 
+  if (!normalizedParentUrl && !normalizedUrl) return '/';
   if (!normalizedParentUrl) return `/${normalizedUrl}`;
   if (!normalizedUrl) return `/${normalizedParentUrl}`;
+
   return `/${normalizedParentUrl}/${normalizedUrl}`;
 };
 

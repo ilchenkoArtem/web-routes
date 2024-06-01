@@ -7,11 +7,15 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: [resolve(__dirname, 'src/nested-routes/index.ts')],
       formats: ['es'],
-      name: 'my-lib',
-      fileName: 'my-lib',
+      name: '@routes',
+      fileName: 'index',
     },
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 2,
+    sourcemap: true,
+    emptyOutDir: true,
   },
   test: { environment: 'jsdom' },
   plugins: [
