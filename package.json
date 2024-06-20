@@ -7,7 +7,6 @@
     "build": "turbo run build",
     "prepare": "husky install",
     "test:code": "vitest --run",
-    "test:code:watch": "vitest",
     "test:type": "turbo run test:types",
     "coverage": "vitest run --coverage",
     "lint:fix": "eslint . --ext .ts --fix",
@@ -15,7 +14,10 @@
     "pretty": "prettier --write \"src/**/*.ts\"",
     "clean-up": "npm run lint-and-fix & npm run pretty",
     "commit": "git-cz",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "changeset": "changeset",
+    "publish:packages": "changeset publish",
+    "version:packages": "changeset version"
   },
   "workspaces": [
     "packages/*"
@@ -23,6 +25,7 @@
   "author": "Artem Ilchenko",
   "license": "ISC",
   "dependencies": {
+    "@changesets/cli": "^2.27.5",
     "tsup": "^8.0.2",
     "type-fest": "^4.18.3"
   },

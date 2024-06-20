@@ -52,7 +52,7 @@ export const createRoutes = <T extends RoutesConfig>(config: T): Routes<T> => {
           }
 
           const withBackTo = options.withBackTo ?? !!routeConfig.withBackTo;
-          if (withBackTo && typeof window !== 'undefined') {
+          if (withBackTo && !!window) {
             url = addQuery(url, {
               backTo: window.location.pathname + window.location.search,
             });
