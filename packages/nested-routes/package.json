@@ -17,8 +17,8 @@
     "lint:fix": "eslint . --fix",
     "lint:ts": "tsc --noEmit",
     "test:types": "tsd",
-    "test": "vitest",
-    "coverage": "vitest --coverage"
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "type-fest": "^4.18.3"
